@@ -25,7 +25,7 @@ end
 def printout(students)
 
 	students.each_with_index do |student, index|
-		print student[:name].start_with?("A") ? "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)\n" : ""
+		print student[:name].length < 12 ? "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)\n" : ""
 		
 	end
 end
