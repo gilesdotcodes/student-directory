@@ -1,5 +1,5 @@
 def input_students
-	print "please enter the names of the students\n"
+	print "\nPlease enter the names of the students\n"
 	print "To finish, just hit return twice\n"
 	# create empty array
 	students = []
@@ -24,9 +24,11 @@ end
 
 def printout(students)
 
-	students.each_with_index do |student, index|
-		print student[:name].length < 12 ? "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)\n" : ""
-		
+	counter = 1	
+	
+	while counter <= students.length do
+		print "#{counter}. #{students[counter-1][:name]} (#{students[counter-1][:cohort]} cohort)\n"
+		counter += 1		
 	end
 end
 
