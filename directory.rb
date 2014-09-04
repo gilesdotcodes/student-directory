@@ -13,3 +13,7 @@ puts "Sandrine - MadameSardine"
 puts "Pablo - galicians"
 puts "Rachel - SBLLB"
 puts "Steve - HatStephens"
+
+print "Currently, we have "
+print 13
+puts " great students."
