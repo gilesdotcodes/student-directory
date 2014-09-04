@@ -1,19 +1,24 @@
-student_count = 13
-#first we print the list of students
+#put students into array
+students = [
+	"Bernard - bmordan",
+	"Nicole - NicolePell",
+	"Yvette - yvettecook",
+	"Elena - elenagarrone",
+	"Fadie - fadieh",
+	"Tim - Scully87",
+	"Ella - EllaNancyFay",
+	"Andrew - andrewhercules",
+	"Camilla - camillavk",
+	"Sandrine - MadameSardine",
+	"Pablo - galicians",
+	"Rachel - SBLLB",
+	"Steve - HatStephens"
+]
+#and then we print the list of students
 puts "Students in the September 2014 Makers Academy cohort"
 puts "-----------------"
-puts "Bernard - bmordan"
-puts "Nicole - NicolePell"
-puts "Yvette - yvettecook"
-puts "Elena - elenagarrone"
-puts "Fadie - fadieh"
-puts "Tim - Scully87"
-puts "Ella - EllaNancyFay"
-puts "Andrew - andrewhercules"
-puts "Camilla - camillavk"
-puts "Sandrine - MadameSardine"
-puts "Pablo - galicians"
-puts "Rachel - SBLLB"
-puts "Steve - HatStephens"
+students.each do |student|
+	puts student
+end
 #finally, we print the total
-print "Currently, we have #{student_count} great students"
+print "Currently, we have #{students.length} great students"
