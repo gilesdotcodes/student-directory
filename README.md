@@ -11,10 +11,10 @@ ruby directory.rb
 
 ####Other notes
 
-This is also helping HatStephens to
-1.    Improve git skills
-2.    Understand to set up a project on GitHub
-3.    ~~Become Spiderman!~~
+This is also helping HatStephens to:
+*    Improve git skills
+*    Understand to set up a project on GitHub
+*    ~~Become Spiderman!~~
 
 ####To-Do list
 - [x] Make notes on Markdown and GFM
