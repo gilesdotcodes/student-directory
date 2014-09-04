@@ -1,19 +1,21 @@
-#put students into array
-students = [
-	{:name => "Bernard - bmordan", :cohort => :september},
-	{:name => "Nicole - NicolePell", :cohort => :september},
-	{:name => "Yvette - yvettecook", :cohort => :september},
-	{:name => "Elena - elenagarrone", :cohort => :september},
-	{:name => "Fadie - fadieh", :cohort => :september},
-	{:name => "Tim - Scully87", :cohort => :september},
-	{:name => "Ella - EllaNancyFay", :cohort => :september},
-	{:name => "Andrew - andrewhercules", :cohort => :september},
-	{:name => "Camilla - camillavk", :cohort => :september},
-	{:name => "Sandrine - MadameSardine", :cohort => :september},
-	{:name => "Pablo - galicians", :cohort => :september},
-	{:name => "Rachel - SBLLB", :cohort => :september},
-	{:name => "Steve - HatStephens", :cohort => :september}
-]
+def input_students
+	puts "please enter the names of the students"
+	puts "To finish, just hit return twice"
+	# create empty array
+	students = []
+	# get the first name
+	name = gets.chomp
+	# while the name is not empty, repeat this code
+	while !name.empty? do
+		# add the student hash to the array
+		students << {:name => name, :cohort => :september}
+		puts "Now we have #{students.length} students"
+		# get another name from the user
+		name = gets.chomp
+	end
+	# return array of students
+	students
+end
 
 def print_header
 	puts "Students in the September 2014 Makers Academy cohort"
@@ -30,6 +32,7 @@ def print_footer(names)
 	puts "Currently, we have #{names.length} great students"
 end
 #nothing happens until we call the methods
+students = input_students
 print_header
 print(students)
 print_footer(students)
