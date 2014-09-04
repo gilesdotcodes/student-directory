@@ -21,8 +21,11 @@ def input_students
 end
 
 def print_header
-	print "Students in the September 2014 Makers Academy cohort\n"
-	print "-----------------\n"
+	print "\n"
+	print "Students in the September 2014 Makers Academy cohort".center(60)
+	print "\n\n"
+	print "-----------------".center(60)
+	print "\n\n"
 end
 
 def printout(students)
@@ -30,13 +33,16 @@ def printout(students)
 	counter = 1	
 	
 	while counter <= students.length do
-		print "#{counter}. #{students[counter-1][:name]} (#{students[counter-1][:cohort]} Cohort)(Hobby: #{students[counter-1][:hobby]})\n"
+		print "#{counter}. #{students[counter-1][:name]} (#{students[counter-1][:cohort]} Cohort)(Hobby: #{students[counter-1][:hobby]})".center(60)
+		print "\n"
 		counter += 1		
 	end
 end
 
 def print_footer(names)
-	print "Currently, we have #{names.length} great students\n"
+	print "\n"
+	print "Currently, we have #{names.length} great students".center(60)
+	print "\n\n"
 end
 #nothing happens until we call the methods
 students = input_students
