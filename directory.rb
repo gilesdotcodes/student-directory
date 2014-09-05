@@ -13,12 +13,13 @@ def input_students
 		# ask for their cohort
 		print "Now enter #{name}'s cohort\n"
 		cohort = gets.chomp.capitalize
+		#set default if they leave it blank
 		cohort=="" ? cohort=:September : ""
 		# check spelling!
 		cohort = spelling(cohort)
 		# add the student hash to the array
 		students << {:name => name.capitalize, :hobby => hobby.capitalize, :cohort => cohort.to_sym}
-		print "Now we have #{students.length} students\n"
+		print students.length==1 ? "Now we have 1 student\n" : "Now we have #{students.length} students\n"
 		# get another name from the user
 		print "Enter the name of the next student\n"
 		print "Note: to finish, just hit return twice\n"
@@ -34,6 +35,8 @@ def spelling(cohort_check)
 	else
 		print "Please check your spelling and re-enter the cohort\n"
 		cohort_again = gets.chomp.capitalize
+		# again set default if they leave blank
+		cohort_again=="" ? cohort_again=:September : ""
 		return spelling(cohort_again)
 	end
 end
