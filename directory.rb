@@ -20,6 +20,8 @@ def input_students
 		students << {:name => name.capitalize, :hobby => hobby.capitalize, :cohort => cohort.to_sym}
 		print "Now we have #{students.length} students\n"
 		# get another name from the user
+		print "Enter the name of the next student\n"
+		print "Note: to finish, just hit return twice\n"
 		name = gets.chomp
 	end
 	# return array of students
@@ -36,6 +38,18 @@ def spelling(cohort_check)
 	end
 end
 
+def sort_into_cohort(students)
+
+	cohort_list = []
+	# maps over students and adds the cohort to our array
+	students.map do |student|
+		cohort_list << student[:cohort]
+	end
+	# returns the array of cohorts but removes duplicates
+	return cohort_list.uniq
+
+end
+
 def print_header
 	print "\n"
 	print "Students in the September 2014 Makers Academy cohort".center(60)
@@ -45,13 +59,21 @@ def print_header
 end
 
 def printout(students)
+	# call the function to create a list of the cohorts
+	cohorts = sort_into_cohort(students)
 
-	counter = 1	
-	
-	while counter <= students.length do
-		print "#{counter}. #{students[counter-1][:name]} (#{students[counter-1][:cohort]} Cohort)(Hobby: #{students[counter-1][:hobby]})".center(60)
-		print "\n"
-		counter += 1		
+	# iterate over each different cohort
+	cohorts.each do | month |
+
+		# iterate over the students
+		students.each_with_index do | student, index |	
+			# locate whether there is a match and if so print the student details
+			if student[:cohort] == month
+				print "#{index+1}. #{student[:name]} (#{student[:cohort]} Cohort)(Hobby: #{student[:hobby]})".center(60)
+				print "\n"
+			end	
+		end
+
 	end
 end
 
