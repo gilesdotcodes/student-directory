@@ -85,8 +85,11 @@ def print_footer(names)
 	print "Currently, we have #{names.length} great students".center(60)
 	print "\n\n"
 end
-#nothing happens until we call the methods
+# nothing happens until we call the methods
 students = input_students
-print_header
-printout(students)
-print_footer(students)
+# only proceed if students are entered
+if !students.empty?
+	print_header
+	printout(students)
+	print_footer(students)
+end
