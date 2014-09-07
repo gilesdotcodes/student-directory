@@ -1,8 +1,37 @@
+# declare as a global variable
+@students =[]
+
+# method to allow user to choose their action
+def interactive_menu
+	loop do
+		print_menu
+		process(gets.chomp.to_i)
+	end
+end
+
+def print_menu
+	puts "Please make a selection from the menu by typing the appropriate number:"
+	puts "1. Input the students."
+	puts "2. Show the students."
+	puts "9. Exit."
+end
+
+def process(selection)
+	case selection
+			when 1
+				students = input_students
+			when 2
+				show_students
+			when 9
+				exit
+			else
+			puts "Sorry, but I did not recognise that selection, please try again"
+	end
+end
+
 def input_students
 	print "\nPlease enter the name of the first student and follow the prompts\n"
 	print "To finish, just hit return twice\n"
-	# create empty array
-	students = []
 	# get the first name
 	name = gets.chomp
 	# while the name is not empty, repeat this code
@@ -18,15 +47,54 @@ def input_students
 		# check spelling!
 		cohort = spelling(cohort)
 		# add the student hash to the array
-		students << {:name => name.capitalize, :hobby => hobby.capitalize, :cohort => cohort.to_sym}
-		print students.length==1 ? "Now we have 1 student\n" : "Now we have #{students.length} students\n"
+		@students << {:name => name.capitalize, :hobby => hobby.capitalize, :cohort => cohort.to_sym}
+		print @students.length==1 ? "Now we have 1 student\n" : "Now we have #{@students.length} students\n"
 		# get another name from the user
 		print "Enter the name of the next student\n"
 		print "Note: to finish, just hit return twice\n"
 		name = gets.chomp
 	end
 	# return array of students
-	students
+	@students
+end
+
+def show_students
+	print_header
+	print_students_list
+	print_footer
+end
+
+def print_header
+	print "\n"
+	print "Students in the September 2014 Makers Academy cohort".center(60)
+	print "\n\n"
+	print "-----------------".center(60)
+	print "\n\n"
+end
+
+def print_students_list
+	# call the function to create a list of the cohorts
+	cohorts = sort_into_cohort
+
+	# iterate over each different cohort
+	cohorts.each do | month |
+
+		# iterate over the students
+		@students.each_with_index do | student, index |	
+			# locate whether there is a match and if so print the student details
+			if student[:cohort] == month
+				print "#{index+1}. #{student[:name]} (#{student[:cohort]} Cohort)(Hobby: #{student[:hobby]})".center(60)
+				print "\n"
+			end	
+		end
+
+	end
+end
+
+def print_footer
+	print "\n"
+	print "Currently, we have #{@students.length} great students".center(60)
+	print "\n\n"
 end
 
 def spelling(cohort_check)
@@ -41,55 +109,14 @@ def spelling(cohort_check)
 	end
 end
 
-def sort_into_cohort(students)
-
+def sort_into_cohort
 	cohort_list = []
 	# maps over students and adds the cohort to our array
-	students.map do |student|
+	@students.map do |student|
 		cohort_list << student[:cohort]
 	end
 	# returns the array of cohorts but removes duplicates
 	return cohort_list.uniq
-
 end
 
-def print_header
-	print "\n"
-	print "Students in the September 2014 Makers Academy cohort".center(60)
-	print "\n\n"
-	print "-----------------".center(60)
-	print "\n\n"
-end
-
-def printout(students)
-	# call the function to create a list of the cohorts
-	cohorts = sort_into_cohort(students)
-
-	# iterate over each different cohort
-	cohorts.each do | month |
-
-		# iterate over the students
-		students.each_with_index do | student, index |	
-			# locate whether there is a match and if so print the student details
-			if student[:cohort] == month
-				print "#{index+1}. #{student[:name]} (#{student[:cohort]} Cohort)(Hobby: #{student[:hobby]})".center(60)
-				print "\n"
-			end	
-		end
-
-	end
-end
-
-def print_footer(names)
-	print "\n"
-	print "Currently, we have #{names.length} great students".center(60)
-	print "\n\n"
-end
-# nothing happens until we call the methods
-students = input_students
-# only proceed if students are entered
-if !students.empty?
-	print_header
-	printout(students)
-	print_footer(students)
-end
+interactive_menu
