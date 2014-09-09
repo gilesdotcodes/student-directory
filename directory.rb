@@ -5,7 +5,7 @@
 def interactive_menu
 	loop do
 		print_menu
-		process(gets.chomp.to_i)
+		process(STDIN.gets.chomp.to_i)
 	end
 end
 
@@ -39,15 +39,15 @@ def input_students
 	print "\nPlease enter the name of the first student and follow the prompts\n"
 	print "To finish, just hit return twice\n"
 	# get the first name
-	name = gets.chomp
+	name = STDIN.gets.chomp
 	# while the name is not empty, repeat this code
 	while !name.empty? do
 		# ask for their favourite hobby
 		print "Now enter #{name}'s favourite hobby\n"
-		hobby = gets.chomp
+		hobby = STDIN.gets.chomp
 		# ask for their cohort
 		print "Now enter #{name}'s cohort\n"
-		cohort = gets.chomp.capitalize
+		cohort = STDIN.gets.chomp.capitalize
 		#set default if they leave it blank
 		cohort=="" ? cohort=:September : ""
 		# check spelling!
@@ -58,7 +58,7 @@ def input_students
 		# get another name from the user
 		print "Enter the name of the next student\n"
 		print "Note: to finish, just hit return twice\n"
-		name = gets.chomp
+		name = STDIN.gets.chomp
 	end
 	# return array of students
 	@students
@@ -108,7 +108,7 @@ def spelling(cohort_check)
 		return cohort_check
 	else
 		print "Please check your spelling and re-enter the cohort\n"
-		cohort_again = gets.chomp.capitalize
+		cohort_again = STDIN.gets.chomp.capitalize
 		# again set default if they leave blank
 		cohort_again=="" ? cohort_again=:September : ""
 		return spelling(cohort_again)
@@ -130,20 +130,33 @@ def save_students
 	file = File.open("students.csv", "w")
 	# iterate over the arrat of students
 	@students.each do |student|
-		student_data = [student[:name], student[:cohort]]
+		student_data = [student[:name], student[:cohort], student[:hobby]]
 		csv_line = student_data.join(",")
 		file.puts csv_line
 	end
 	file.close
 end
 
-def load_students
-	file = File.open("students.csv", "r")
+def load_students (filename = "students.csv")
+	file = File.open(filename, "r")
 	file.readlines.each do | line |
-		name, cohort = line.chomp.split(',')
-			@students << {:name => name, :cohort => cohort.to_sym}
+		name, cohort, hobby = line.chomp.split(',')
+			@students << {:name => name, :cohort => cohort.to_sym, :hobby => hobby}
 	end
 	file.close
 end
 
+def try_load_students
+	filename = ARGV.first
+	return if filename.nil?
+	if File.exists?(filename)
+		load_students(filename)
+		puts "Loaded #{@students.length} from #{filename}"
+	else
+		puts "Sorry, #{filename} doesn't exist."
+		exit
+	end
+end
+
+try_load_students
 interactive_menu
