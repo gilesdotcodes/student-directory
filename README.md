@@ -18,7 +18,7 @@ This is also helping HatStephens to:
 
 ####To-Do list
 - [x] Make notes on Markdown and GFM
-- [ ] Finish this project
+- [x] Finish this project
 
 Over egging this?
 -----------------
