@@ -1,3 +1,5 @@
+require 'csv'
+
 # declare as a global variable
 @students =[]
 
@@ -14,8 +16,8 @@ def print_menu
 	puts "Please make a selection from the menu by typing the appropriate number:"
 	puts "1. Input the students."
 	puts "2. Show the students."
-	puts "3. Save the list to students.csv"
-	puts "4. Load the list from students.csv"
+	puts "3. Save the list to a file of your choice"
+	puts "4. Load the list from a file of your choice"
 	puts "9. Exit."
 end
 
@@ -45,9 +47,6 @@ def input_students
 	name = get_input
 	# while the name is not empty, repeat this code
 	while !name.empty? do
-		# ask for their favourite hobby
-		print "Now enter #{name}'s favourite hobby\n"
-		hobby = get_input
 		# ask for their cohort
 		print "Now enter #{name}'s cohort\n"
 		cohort = get_input
@@ -55,8 +54,11 @@ def input_students
 		cohort=="" ? cohort=:September : ""
 		# check spelling!
 		cohort = spelling(cohort)
+		# ask for their favourite hobby
+		print "Now enter #{name}'s favourite hobby\n"
+		hobby = get_input
 		# add the student hash to the array
-		put_student_into_array(name, hobby, cohort)
+		put_student_into_array(name, cohort, hobby)
 		print @students.length==1 ? "Now we have 1 student\n" : "Now we have #{@students.length} students\n"
 		# get another name from the user
 		print "Enter the name of the next student\n"
@@ -73,8 +75,8 @@ def get_input
 	return input_data
 end
 
-def put_student_into_array(name, hobby, cohort)
-	@students << {:name => name, :hobby => hobby, :cohort => cohort.to_sym}
+def put_student_into_array(name, cohort, hobby)
+	@students << {:name => name, :cohort => cohort.to_sym, :hobby => hobby}
 end
 
 # 4 ronseal methods
@@ -141,36 +143,44 @@ def sort_into_cohort
 end
 
 def save_students
+	# requests the filename to be saved to
+	puts "What would you like to name your file? (no need to add .csv)"
+	# gets filename. Not using method here because no need to capitalize and need to add .csv suffix
+	filename = STDIN.gets.chomp + ".csv"
 	# open the file for writing (must do this)
-	File.open("students.csv", "w") do | file |
-	# iterate over the arrat of students
+	CSV.open(filename, "w") do |row|
+	# iterate over the array of students
 		@students.each do |student|
-			student_data = [student[:name], student[:cohort], student[:hobby]]
-			csv_line = student_data.join(",")
-			file.puts csv_line
+			row << [student[:name], student[:cohort], student[:hobby]]
 		end
 	end
 end
 
-def load_students (filename = "students.csv")
-	File.open(filename, "r") do | file |
-	    file.readlines.each do | line |
-			name, cohort, hobby = line.chomp.split(',')
-			put_student_into_array(name, hobby, cohort)
-		end
+# setting a nil default value for when this method is called from the menu, whilst still be useful if a file is passed as argument
+def load_students(filename=nil)
+	if filename.nil? 
+		puts "What file would you like to load student data from? (no need to add .csv)"
+		# gets filename. Not using method here because no need to capitalize and need to add .csv suffix
+		filename = STDIN.gets.chomp + ".csv"
+	end
+	# If passed as an argument this will be re-tested. Waste of time and memory but need to check whether user defined file exists.
+	if File.exists?(filename)
+		# use built in CSV library to add to array (I believe this means we don't deal directly with the file)
+		CSV.foreach(filename) do |row|
+			put_student_into_array(row[0], row[1], row[2])			
+			end
+		puts "Loaded #{@students.length} from #{filename}"
+	else
+		puts "Sorry, #{filename} doesn't exist. Please try again using Option 4 below."
+		return
 	end
 end
 
+# test removed and now included in load_students method --> D.R.Y.
 def try_load_students
 	filename = ARGV.first
 	return if filename.nil?
-	if File.exists?(filename)
-		load_students(filename)
-		puts "Loaded #{@students.length} from #{filename}"
-	else
-		puts "Sorry, #{filename} doesn't exist."
-		exit
-	end
+	load_students(filename)
 end
 
 try_load_students
