@@ -1,8 +1,6 @@
 require 'csv'
-
-# declare as a global variable
+# declare a global variable for our student list
 @students =[]
-
 # method to allow user to choose their action using infinite loop
 def interactive_menu
 	loop do
@@ -10,10 +8,9 @@ def interactive_menu
 		process(STDIN.gets.chomp.to_i)
 	end
 end
-
 # ronseal method
 def print_menu
-	puts "Please make a selection from the menu by typing the appropriate number:"
+	puts "\nPlease make a selection from the menu by typing the appropriate number:"
 	puts "1. Input the students."
 	puts "2. Show the students."
 	puts "3. Save the list to a file of your choice"
@@ -62,7 +59,7 @@ def input_students
 		print @students.length==1 ? "Now we have 1 student\n" : "Now we have #{@students.length} students\n"
 		# get another name from the user
 		print "Enter the name of the next student\n"
-		print "Note: to finish, just hit return twice\n"
+		print "Reminder: to finish, just hit return twice\n"
 		name = get_input
 	end
 	# return array of students
@@ -145,9 +142,9 @@ end
 def save_students
 	# requests the filename to be saved to
 	puts "What would you like to name your file? (no need to add .csv)"
-	# gets filename. Not using method here because no need to capitalize and need to add .csv suffix
+	# gets filename. Not using get_input method here because don't want it capitalized and we need to add .csv suffix
 	filename = STDIN.gets.chomp + ".csv"
-	# open the file for writing (must do this)
+	# open the file for writing (must do this, but no need to close as using CSV)
 	CSV.open(filename, "w") do |row|
 	# iterate over the array of students
 		@students.each do |student|
@@ -160,10 +157,10 @@ end
 def load_students(filename=nil)
 	if filename.nil? 
 		puts "What file would you like to load student data from? (no need to add .csv)"
-		# gets filename. Not using method here because no need to capitalize and need to add .csv suffix
+		# gets filename. Not using get_input method here because don't want it capitalized and need to add .csv suffix
 		filename = STDIN.gets.chomp + ".csv"
 	end
-	# If passed as an argument this will be re-tested. Waste of time and memory but need to check whether user defined file exists.
+	# Check whether user defined file exists.
 	if File.exists?(filename)
 		# use built in CSV library to add to array (I believe this means we don't deal directly with the file)
 		CSV.foreach(filename) do |row|
